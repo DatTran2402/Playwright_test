@@ -13,6 +13,8 @@ export default class DashboardMainPage {
   readonly addPageBtn: Locator = this.page.locator('//li[@class = "mn-setting"]//a[text()="Add Page"]');
   readonly createProfileBtn: Locator = this.page.locator('//li[@class = "mn-setting"]//a[text()="Create Profile"]');
   readonly createPanelBtn: Locator = this.page.locator('//li[@class = "mn-setting"]//a[text()="Create Panel"]');
+  readonly editBtn: Locator = this.page.locator('//li[@class = "mn-setting"]//a[text()="Edit"]');
+  readonly deleteBtn: Locator = this.page.locator('//li[@class = "mn-setting"]//a[text()="Delete"]');
   constructor(private readonly page: Page) {}
 
   async displays(): Promise<void> {
@@ -43,5 +45,24 @@ export default class DashboardMainPage {
   async logout(): Promise<void> {
     await this.welcomeBtn.hover();
     await this.logoutBtn.click();
+  }
+
+  async clickAddNewPage(): Promise<void> {
+    await this.globalSettingBtn.hover();
+    await this.addPageBtn.click();
+  }
+
+  async navigateToNewPage(pagename: string): Promise<void> {
+    const dynamicXpath = '//a[text()="'+ pagename +'"]';
+    await this.page.locator(dynamicXpath).click();
+  }
+
+  async removePage(pagename: string): Promise<void> {
+    await this.globalSettingBtn.hover();
+    await this.deleteBtn.click();
+  }
+
+  async clickChoosePanelsBtn(): Promise<void> {
+    await this.choosePanelsBtn.click();
   }
 }

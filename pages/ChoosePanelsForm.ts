@@ -5,6 +5,6 @@ export default class ChoosePanelsForm {
     constructor(private readonly page: Page) { }
 
     async choosePanelsFormDisplay(): Promise<void> {
-        await expect(this.choosePanelsForm.isVisible);
+        await expect(this.choosePanelsForm).toBeVisible();
     }
 }

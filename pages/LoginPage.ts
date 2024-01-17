@@ -12,7 +12,8 @@ export default class LoginPage {
       }
 
       async login(username: string, password: string, repo?: string): Promise<void> {
-        if (repo !== null && repo !== undefined) await this.repoCbx.selectOption(repo);
+        if (repo !== null && repo !== undefined) 
+          await this.repoCbx.selectOption(repo);
         await this.usernameTxt.fill(username);
         await this.passwordTxt.fill(password);
         await this.loginBtn.click();
