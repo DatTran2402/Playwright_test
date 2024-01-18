@@ -7,4 +7,8 @@ export default class ChoosePanelsForm {
     async choosePanelsFormDisplay(): Promise<void> {
         await expect(this.choosePanelsForm).toBeVisible();
     }
+
+    async verifyNewPanelDisplay(newpanel: string): Promise<void> {
+        await expect(this.page.locator('xpath= //a[text()="'+ newpanel +'"]')).toBeVisible();
+    }
 }

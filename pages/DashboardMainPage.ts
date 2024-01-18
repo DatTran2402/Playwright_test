@@ -2,11 +2,12 @@ import { Locator, Page, expect } from "@playwright/test";
 
 export default class DashboardMainPage {
   readonly welcomeBtn: Locator = this.page.locator('xpath=//a[@href="#Welcome"]');
-  readonly myProfileBtn: Locator = this.page.locator('xpath=//a[text()="Logout"]');
-  readonly logoutBtn: Locator = this.page.locator('xpath=//a[text()="My Profile"]');
+  readonly logoutBtn: Locator = this.page.locator('xpath=//a[text()="Logout"]');
+  readonly myProfileBtn: Locator = this.page.locator('xpath=//a[text()="My Profile"]');
   readonly dataProfilesBtn: Locator = this.page.locator('xpath=//a[text()="Data Profiles"]');
   readonly PanelsBtn: Locator = this.page.locator('xpath=//a[text()="Panels"]');
   readonly overviewBtn: Locator = this.page.locator('xpath=//a[text()="Overview"]');
+  readonly administerBtn: Locator = this.page.locator('xpath=//a[text()="Administer"]');
   readonly executionDashboardBtn: Locator = this.page.getByText('Execution Dashboard');
   readonly choosePanelsBtn: Locator = this.page.locator('#main-menu #btnChoosepanel');
   readonly globalSettingBtn: Locator = this.page.locator('#main-menu .mn-setting');
@@ -35,10 +36,12 @@ export default class DashboardMainPage {
   }
 
   async navigateToDataProfliesPage(): Promise<void> {
+    await this.administerBtn.hover();
     await this.dataProfilesBtn.click();
   }
 
   async navigateToPanelsPage(): Promise<void> {
+    await this.administerBtn.hover();
     await this.PanelsBtn.click();
   }
 
@@ -52,12 +55,22 @@ export default class DashboardMainPage {
     await this.addPageBtn.click();
   }
 
-  async navigateToNewPage(pagename: string): Promise<void> {
+  async clickAddNewPanels(): Promise<void> {
+    await this.globalSettingBtn.hover();
+    await this.createPanelBtn.click();
+  }
+
+  async navigateToParentPage(pagename: string): Promise<void> {
     const dynamicXpath = '//a[text()="'+ pagename +'"]';
     await this.page.locator(dynamicXpath).click();
   }
 
-  async removePage(pagename: string): Promise<void> {
+  async navigateToChildPage(parentname: string, childname: string): Promise<void> {
+    await this.page.locator('xpath=//a[text()="'+ parentname +'"]').hover();
+    await this.page.locator('xpath=//a[text()="'+ childname +'"]').click();
+  }
+
+  async removePage(): Promise<void> {
     await this.globalSettingBtn.hover();
     await this.deleteBtn.click();
   }

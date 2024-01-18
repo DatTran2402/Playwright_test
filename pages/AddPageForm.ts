@@ -12,7 +12,7 @@ export default class AddPageForm {
     constructor(private readonly page: Page) { }
 
     async addNewPage(pagename: string, parentpage: string, columnnumber: string, afterpage: string, ispublic: boolean): Promise<void> {
-        await this.pageNameTxt.waitFor();
+        await expect(this.pageNameTxt).toBeVisible();
         await this.pageNameTxt.fill(pagename);
         await this.parentPageDdb.selectOption(parentpage);
         await this.columnNumberDdb.selectOption(columnnumber);
