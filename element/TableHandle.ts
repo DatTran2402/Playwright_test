@@ -14,7 +14,6 @@ export default class TableHandle {
         if (index_of_header != null) {
             tdIndex = index_of_header + 1;
         }
-
         return tdIndex;
     }
 

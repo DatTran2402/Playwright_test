@@ -41,14 +41,5 @@ test('Verify that when "Choose panels" form is expanded all pre-set panels are p
     await panelsPage.clickOnAddNewLink();
     await addPanelsForm.addPanelFormDisplay();
 
-    await dashboardMainPage.overviewBtn.isEnabled() == false;
-    await dashboardMainPage.executionDashboardBtn.isEnabled() == false;
-
-    await dashboardMainPage.welcomeBtn.hover();
-    await dashboardMainPage.logoutBtn.isEnabled() == false;
-
-    await dashboardMainPage.administerBtn.hover();
-    await dashboardMainPage.dataProfilesBtn.isEnabled() == false;
-
-    await dashboardMainPage.navigateToDataProfliesPage();
+    expect(await dashboardMainPage.checkControllerIsDisable('Overview')).toBe(true);
   })

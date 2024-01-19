@@ -1,4 +1,5 @@
 import { Locator, Page, expect } from "@playwright/test";
+const playwright = require('playwright');
 
 export default class DashboardMainPage {
   readonly welcomeBtn: Locator = this.page.locator('xpath=//a[@href="#Welcome"]');
@@ -77,5 +78,19 @@ export default class DashboardMainPage {
 
   async clickChoosePanelsBtn(): Promise<void> {
     await this.choosePanelsBtn.click();
+  }
+
+  async checkControllerIsDisable(control: string) {
+    const controlXpath = '//a[text()="'+ control +'"]';
+    try {
+        await this.page.locator(controlXpath).click({
+            timeout: 100,
+          });
+        return false;
+    } catch (error){
+        if (error instanceof playwright.errors.TimeoutError) {
+            return true;                
+          }
+    }
   }
 }
