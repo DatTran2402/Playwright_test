@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import DashboardMainPage from '../pages/dashboardMainPage';
 import LoginPage from '../pages/LoginPage';
 import AddPageForm from '../pages/AddPageForm';
+import DialogHandle from '../element/DialogHandle';
 
 test('Verify that "Public" pages can be visible and accessed by all users of working repository', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -18,7 +19,7 @@ test('Verify that "Public" pages can be visible and accessed by all users of wor
     
     await loginPage.login('test', 'TEST');
 
-    await addPageForm.newPageIsDisplay('NewPage');
+    await expect(addPageForm.newPageIsDisplay('NewPage')).toBe(true);
     await dashboardMainPage.navigateToParentPage('NewPage');
 })
 
@@ -28,6 +29,7 @@ test('Verify that user can remove any main parent page except "Overview" page su
     const loginPage = new LoginPage(page);
     const dashboardMainPage = new DashboardMainPage(page);
     const addPageForm = new AddPageForm(page);
+    const dialogHandle = new DialogHandle(page);
 
     await loginPage.go();
     await loginPage.login('administrator', '');
@@ -41,31 +43,14 @@ test('Verify that user can remove any main parent page except "Overview" page su
     await addPageForm.addNewPage('TestChild', 'Test', '2', '', true);
 
     await dashboardMainPage.navigateToParentPage('Test');
-    page.once('dialog', async dialog => {
-        page.once('dialog', async dialog => {
-            await expect.soft(dialog.message().trim()).toEqual(cannotDeleteMessage);
-            console.log(dialog.message());
-            dialog.dismiss();
-        });
-        await expect(dialog.message()).toEqual(deletePageMessage);
-        console.log(dialog.message());
-        dialog.accept();
-    });
+    await dialogHandle.cannotDeletePageDialogHandle(cannotDeleteMessage, deletePageMessage);
     await dashboardMainPage.removePage();
 
     await dashboardMainPage.navigateToChildPage('Test', 'TestChild');
-    page.once('dialog', async dialog => {
-        await expect.soft(dialog.message().trim()).toEqual(deletePageMessage);
-        console.log(dialog.message());
-        dialog.accept();
-    });
+    await dialogHandle.deletePageDialogHandle(deletePageMessage);
     await dashboardMainPage.removePage();
 
     await dashboardMainPage.navigateToParentPage('Test');
-    page.once('dialog', async dialog => {
-        await expect.soft(dialog.message().trim()).toEqual(deletePageMessage);
-        console.log(dialog.message());
-        dialog.accept();
-    });
+    await dialogHandle.deletePageDialogHandle(deletePageMessage);
     await dashboardMainPage.removePage();
 })

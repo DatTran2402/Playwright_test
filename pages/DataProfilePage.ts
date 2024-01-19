@@ -7,14 +7,6 @@ export default class DataProfilePage {
     readonly AddLevelBtn: Locator = this.page.locator('#btnAddSortField');
     constructor(private readonly page: Page) { }
 
-    async verifyTableSort(): Promise<void> {
-        const table = await this.page.$('xpath=//table[@class="GridView"]');
-        const tdElements = await table?.$$eval('td', tds => tds.map(td => td.textContent));
-        const tdElementsSort = tdElements?.slice().sort();
-        const isSorted = JSON.stringify(tdElements) === JSON.stringify(tdElementsSort);
-        console.log(isSorted);
-    }
-
     async clickAddNewLink(): Promise<void> {
         await this.addNewLink.click();
     }
