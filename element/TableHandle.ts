@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 export default class TableHandle {
     constructor(private readonly page: Page) { }
@@ -29,13 +29,17 @@ export default class TableHandle {
         return arrSort;
     }
 
+    async VerifyTableDataEqual(arr1, arr2: Array<string>): Promise<boolean> {
+        const isEqual = JSON.stringify(arr1) === JSON.stringify(arr2);
+        return isEqual;
+    }
+
     async VerifyTableSorted(columnname: string, tableXpath: string): Promise<boolean> {
         const index = await this.getColumnIndex(columnname, tableXpath);
         const columnContent = await this.getColumnContent(index, tableXpath);
         const columnContentSort = await this.SoftContent(columnContent);
+        const isSorted = await this.VerifyTableDataEqual(columnContentSort, columnContent);
 
-        const isSorted = JSON.stringify(columnContentSort) === JSON.stringify(columnContent);
-        console.log(isSorted)
         return isSorted;
     }
 }

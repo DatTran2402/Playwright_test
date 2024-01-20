@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 
 export default class DialogHandle {
     constructor(private readonly page: Page) {}

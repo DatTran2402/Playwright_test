@@ -3,6 +3,29 @@ import LoginPage from '../pages/LoginPage';
 import DashboardMainPage from '../pages/dashboardMainPage';
 import DataProfilePage from '../pages/DataProfilePage';
 import TableHandle from '../element/TableHandle';
+import DataHandle from '../element/DataHandle';
+
+test('Verify that all Pre-set Data Profiles are populated correctly', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const dashboardMainPage = new DashboardMainPage(page);
+    const dataHandle = new DataHandle();
+    const tableHandle = new TableHandle(page);
+    const tableXpath = '//table[@class="GridView"]'
+
+    await loginPage.go();
+    await loginPage.login('administrator', '');
+
+    await dashboardMainPage.navigateToDataProfliesPage();
+    const dataFromFile = await dataHandle.getDataFormFileToArray('data.txt');
+    console.log(dataFromFile);
+
+    const index = await tableHandle.getColumnIndex('Data Profile', tableXpath);
+    const tableContent = await tableHandle.getColumnContent(index, tableXpath);
+    console.log(tableContent);
+    const isEqual = await tableHandle.VerifyTableDataEqual(dataFromFile, tableContent);
+
+    await expect(isEqual).toBe(true);
+}) 
 
 test('Verify that Data Profiles are listed alphabetically', async ({ page }) => {
     const loginPage = new LoginPage(page);
