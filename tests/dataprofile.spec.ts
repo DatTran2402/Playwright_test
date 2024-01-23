@@ -45,9 +45,7 @@ test('Verify that user is able to add levels of fields', async ({ page }) => {
     await dataProfilePage.clickAddNewLink();
 
     await dataProfilePage.profileNameTxt.fill('Page1');
-    while (await dataProfilePage.isProfileSettingDisplay('Sort Fields') == false) {
-        await dataProfilePage.clickControlBtn('Next');
-    }
+    await dataProfilePage.gotoProfileSettingOptionPage('Sort Fields');
     
     await dataProfilePage.verifySortItemDisplay('Name');
     await dataProfilePage.verifySortItemDisplay('Location');

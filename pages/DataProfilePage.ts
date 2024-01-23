@@ -16,11 +16,17 @@ export default class DataProfilePage {
         await this.page.locator(controlXpath).click();
     }
 
-    async isProfileSettingDisplay(page: string): Promise<Boolean> {
+    async gotoProfileSettingOptionPage(pageheader: string): Promise<void> {
         const pageXpath = '//td[@class="profilesettingheader"]';
-        if (await this.page.locator(pageXpath).textContent() === page)
-            return true;
-        else return false;
+        // if (await this.page.locator(pageXpath).textContent() === page)
+        //     return true;
+        // else return false;
+        let header = await this.page.locator(pageXpath).textContent();
+        while (header != pageheader) {
+            this.clickControlBtn('Next');
+            await this.page.waitForTimeout(1000);
+            header = await this.page.locator(pageXpath).textContent();
+        }
     }
 
     async verifySortItemDisplay(sortname: string): Promise<void> {
