@@ -3,7 +3,7 @@ import { Locator, Page, expect } from "@playwright/test";
 export default class DataProfilePage {
     readonly addNewLink: Locator = this.page.locator('xpath=//a[text()="Add New"]');
     readonly profileNameTxt: Locator = this.page.locator('#txtProfileName');
-    readonly FieldsCbb: Locator = this.page.locator('#cbbFields');
+    readonly SortFieldsCbb: Locator = this.page.locator('#cbbFields');
     readonly AddLevelBtn: Locator = this.page.locator('#btnAddSortField');
     constructor(private readonly page: Page) { }
 
@@ -16,7 +16,7 @@ export default class DataProfilePage {
         await this.page.locator(controlXpath).click();
     }
 
-    async verifyProfileSettingDisplay(page: string): Promise<Boolean> {
+    async isProfileSettingDisplay(page: string): Promise<Boolean> {
         const pageXpath = '//td[@class="profilesettingheader"]';
         if (await this.page.locator(pageXpath).textContent() === page)
             return true;
@@ -24,7 +24,11 @@ export default class DataProfilePage {
     }
 
     async verifySortItemDisplay(sortname: string): Promise<void> {
+        await this.SortFieldsCbb.selectOption(sortname);
+        await this.AddLevelBtn.click();
         const sortnameXpath = '//span[@class="sortFieldName" and text()="'+ sortname +'"]';
         await expect(this.page.locator(sortnameXpath)).toBeVisible();
     }
+
+
 }

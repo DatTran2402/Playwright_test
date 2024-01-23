@@ -23,9 +23,7 @@ export default class AddPageForm {
 
     async newPageIsDisplay(pagename: string): Promise<boolean> {
         const dynamicXpath = '//a[text()="'+ pagename + '"]';
-        console.log(dynamicXpath);
         const isDisplay = await this.page.locator(dynamicXpath).isVisible();
-        console.log(isDisplay);
         return isDisplay;
     }
 }

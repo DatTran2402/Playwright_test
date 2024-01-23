@@ -17,14 +17,7 @@ test('Verify that all Pre-set Data Profiles are populated correctly', async ({ p
 
     await dashboardMainPage.navigateToDataProfliesPage();
     const dataFromFile = await dataHandle.getDataFormFileToArray('data.txt');
-    console.log(dataFromFile);
-
-    const index = await tableHandle.getColumnIndex('Data Profile', tableXpath);
-    const tableContent = await tableHandle.getColumnContent(index, tableXpath);
-    console.log(tableContent);
-    const isEqual = await tableHandle.VerifyTableDataEqual(dataFromFile, tableContent);
-
-    await expect(isEqual).toBe(true);
+    await tableHandle.VerifyTableDataEqual(dataFromFile, 'Data Profile', tableXpath);
 }) 
 
 test('Verify that Data Profiles are listed alphabetically', async ({ page }) => {
@@ -37,9 +30,7 @@ test('Verify that Data Profiles are listed alphabetically', async ({ page }) => 
 
     await dashboardMainPage.navigateToDataProfliesPage();
     const tableXpath = '//table[@class="GridView"]'
-    const isSorted = await tableHandle.VerifyTableSorted('Data Profile', tableXpath);
-
-    await expect(isSorted).toBe(true);
+    await tableHandle.VerifyTableSorted('Data Profile', tableXpath);
 })
 
 test('Verify that user is able to add levels of fields', async ({ page }) => {
@@ -54,14 +45,10 @@ test('Verify that user is able to add levels of fields', async ({ page }) => {
     await dataProfilePage.clickAddNewLink();
 
     await dataProfilePage.profileNameTxt.fill('Page1');
-    while (await dataProfilePage.verifyProfileSettingDisplay('Sort Fields') == false) {
+    while (await dataProfilePage.isProfileSettingDisplay('Sort Fields') == false) {
         await dataProfilePage.clickControlBtn('Next');
     }
-    await dataProfilePage.FieldsCbb.selectOption('Name');
-    await dataProfilePage.AddLevelBtn.click();
+    
     await dataProfilePage.verifySortItemDisplay('Name');
-
-    await dataProfilePage.FieldsCbb.selectOption('Location');
-    await dataProfilePage.AddLevelBtn.click();
     await dataProfilePage.verifySortItemDisplay('Location');
 })

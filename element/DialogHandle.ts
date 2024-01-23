@@ -7,11 +7,9 @@ export default class DialogHandle {
         this.page.once('dialog', async dialog => {
             this.page.once('dialog', async dialog => {
                 await expect.soft(dialog.message().trim()).toEqual(cannotDeleteMessage);
-                console.log(dialog.message());
                 dialog.dismiss();
             });
             await expect(dialog.message()).toEqual(deletePageMessage);
-            console.log(dialog.message());
             dialog.accept();
         });
     }
@@ -19,7 +17,6 @@ export default class DialogHandle {
     async deletePageDialogHandle(deletePageMessage: string): Promise<void> {
         this.page.once('dialog', async dialog => {
             await expect.soft(dialog.message().trim()).toEqual(deletePageMessage);
-            console.log(dialog.message());
             dialog.accept();
         });
     }
