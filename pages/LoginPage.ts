@@ -8,7 +8,7 @@ export default class LoginPage {
     constructor(private readonly page: Page) { }
 
     async go(): Promise<void> {
-        await this.page.goto('localhost/TADashboard/login.jsp');
+        await this.page.goto('http://localhost:54000/TADashboard/login.jsp');
       }
 
       async login(username: string, password: string, repo?: string): Promise<void> {
